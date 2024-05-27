@@ -12,61 +12,76 @@ const payload = {
 
 <script>
 	const featureDetection = document.querySelector('#feature-detection')
-	const payloadInput = document.querySelector('#payload')
+	const parsedPayload = document.querySelector('#parsed-payload')
+	const payloadEditor: (HTMLTextAreaElement | null) = document.querySelector('#payload-editor')
 	const shareButton = document.querySelector('#share-button')
-	const parsingResult = document.querySelector('#parsed-payload')
 
-	let payload
+	let payload = Object()
 
 	if ('share' in navigator) {
-		shareButton.removeAttribute('disabled')
-		shareButton.addEventListener('click', () => {
+		shareButton?.removeAttribute('disabled')
+		shareButton?.addEventListener('click', () => {
 			navigator.share(payload)
 		})
 	} else {
-		featureDetection.classList.remove('hidden')
+		featureDetection?.classList.remove('hidden')
 	}
 
 	const update = () => {
-		const input = payloadInput.value.length
-			? payloadInput.value
-			: payloadInput.placeholder
+		const input = payloadEditor?.value.length
+			? payloadEditor.value
+			: payloadEditor.placeholder
 
 		payload = JSON.parse(input)
 
-		parsingResult.innerHTML = JSON.stringify(payload, null, 2)
+		parsedPayload.innerHTML = JSON.stringify(payload, null, 2)
 	}
 
-	payloadInput.addEventListener('input', update)
+	payloadEditor?.addEventListener('input', update)
 
 	update()
 </script>
 
 <Layout title="Discover Share Native">
 	<main>
-		<article id="feature-detection" class="hidden">
-			<h2>Feature detection</h2>
-			<aside>
-				<p><code>navigator.share()</code> is not available in this context.</p>
-			</aside>
-		</article>
 		<hr />	
-		<section>
-			<form style="width: 100%">
-				<header>
-					<h2>Native share payload</h2>
-				</header>
-				<label for="payload">Payload</label>
-				<textarea id="payload" name="payload" placeholder={JSON.stringify(payload, null, 2)} cols="40" rows="10"></textarea>
-				<footer>
-					<button type="submit" id="share-button" disabled>Share</button>
-				</footer>
+		<article>
+			<form>
+				<label for="title-editor">Title</label>
+				<input type="text" id="title-editor" name="title-editor" />
+				<label for="text-editor">Text</label>
+				<input type="text" id="text-editor" name="text-editor" />
+				<label for="url-editor">URL</label>
+				<input type="text" id="url-editor" name="url-editor" />
 			</form>
-		</section>
+		</article>
 		<section>
-			<Card title="Parsing result">
+			<Card title="Files">
+				
+			</Card>
+			<Card title="Analysis">
+
+			</Card>
+			<Card title="Instructions">
+
+			</Card>
+		</section>
+		<article>
+			<details class="w-100">
+				<summary>Parsed result</summary>
 				<pre><code id="parsed-payload"></code></pre>
-			</Cars>
+			</details>
+			<details>
+				<summary>Manually craft your payload</summary>
+				<p>You can manually craft your payload prior to sharing.</p>
+				<form class="w-100">
+					<label for="payload-editor">Payload</label>
+					<textarea id="payload-editor" name="payload-editor" placeholder={JSON.stringify(payload, null, 2)} rows="10"></textarea>
+				</form>
+			</details>
+		</article>
+		<section>
+			<button id="share-button" disabled>Share ↗</button>
 		</section>
 	</main>
 </Layout>
@@ -78,5 +93,8 @@ const payload = {
 	}
 	.hidden {
 		display: none;
+	}
+	.w-100 {
+		width: 100%;
 	}
 </style>
