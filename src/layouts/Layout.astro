@@ -52,12 +52,6 @@ const { title } = Astro.props;
 					<li><a href="/"><strong>Home</strong></a></li>
 				</ul>
 			</nav>
-			<article id="feature-detection" class="left-aligned hidden">
-				<h2>Feature detection</h2>
-				<aside>
-					<p><code>navigator.share()</code> is not available in this context.</p>
-				</aside>
-			</article>
 		</header>
 		<slot />
 		<footer>
@@ -67,9 +61,3 @@ const { title } = Astro.props;
 		</footer>
 	</body>
 </html>
-
-<style>
-	.left-aligned {
-		text-align: left;
-	}
-</style>

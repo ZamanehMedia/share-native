@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
+import Share from '../components/Share.svelte'
 
 const payload = {
 	title: "Discover Native Share",
@@ -12,11 +12,9 @@ const payload = {
 
 <script>
 	const featureDetection = document.querySelector('#feature-detection')
-	const parsedPayload = document.querySelector('#parsed-payload')
+	// Move stuff over to Svelte
 	const payloadEditor: (HTMLTextAreaElement | null) = document.querySelector('#payload-editor')
 	const shareButton = document.querySelector('#share-button')
-
-	let payload = Object()
 
 	if ('share' in navigator) {
 		shareButton?.removeAttribute('disabled')
@@ -26,63 +24,18 @@ const payload = {
 	} else {
 		featureDetection?.classList.remove('hidden')
 	}
-
-	const update = () => {
-		const input = payloadEditor?.value.length
-			? payloadEditor.value
-			: payloadEditor.placeholder
-
-		payload = JSON.parse(input)
-
-		parsedPayload.innerHTML = JSON.stringify(payload, null, 2)
-	}
-
-	payloadEditor?.addEventListener('input', update)
-
-	update()
 </script>
 
 <Layout title="Discover Share Native">
 	<main>
-		<hr />	
-		<article>
-			<form>
-				<label for="title-editor">Title</label>
-				<input type="text" id="title-editor" name="title-editor" />
-				<label for="text-editor">Text</label>
-				<input type="text" id="text-editor" name="text-editor" />
-				<label for="url-editor">URL</label>
-				<input type="text" id="url-editor" name="url-editor" />
-			</form>
+		<article id="feature-detection" class="hidden">
+			<h2>Feature detection</h2>
+			<aside>
+				<p><code>navigator.share()</code> is not available in this context.</p>
+			</aside>
+			<hr />	
 		</article>
-		<section>
-			<Card title="Files">
-				
-			</Card>
-			<Card title="Analysis">
-
-			</Card>
-			<Card title="Instructions">
-
-			</Card>
-		</section>
-		<article>
-			<details class="w-100">
-				<summary>Parsed result</summary>
-				<pre><code id="parsed-payload"></code></pre>
-			</details>
-			<details>
-				<summary>Manually craft your payload</summary>
-				<p>You can manually craft your payload prior to sharing.</p>
-				<form class="w-100">
-					<label for="payload-editor">Payload</label>
-					<textarea id="payload-editor" name="payload-editor" placeholder={JSON.stringify(payload, null, 2)} rows="10"></textarea>
-				</form>
-			</details>
-		</article>
-		<section>
-			<button id="share-button" disabled>Share ↗</button>
-		</section>
+		<Share client:load></Share>
 	</main>
 </Layout>
 
@@ -93,8 +46,5 @@ const payload = {
 	}
 	.hidden {
 		display: none;
-	}
-	.w-100 {
-		width: 100%;
 	}
 </style>
