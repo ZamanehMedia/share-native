@@ -19,16 +19,25 @@
 <article>
     <h1>Discover Native Share</h1>
     <label for="title-editor">Title</label>
-    <input type="text" bind:value={payload.title} placeholder={placeholders.title} />
+    <input name="title-editor" id="title-editor" type="text" bind:value={payload.title} placeholder={placeholders.title} />
     <label for="text-editor">Text</label>
-    <input type="text" bind:value={payload.text} placeholder={placeholders.text} />
+    <input name="text-editor" id="text-editor" type="text" bind:value={payload.text} placeholder={placeholders.text} />
     <label for="url-editor">URL</label>
-    <input type="text" bind:value={payload.url} placeholder={placeholders.url} />
+    <input name="url-editor" id="text" bind:value={payload.url} placeholder={placeholders.url} />
 </article>
 
 <section>
     <Card title="Files">
-        <input bind:value={payload.files} multiple type="file">
+        {typeof(payload.files)} {payload.files} {payload.files.length}
+        {#if payload.files.length > 0}
+        <ul>
+            {#each payload.files as file}
+            <li>{file.name}</li>
+            {/each}
+        </ul>
+        {/if}
+        <label for="file-selector"><a><em>Select files</em></a></label>
+        <input name="file-selector" id="file-selector" bind:files={payload.files} multiple type="file" class="hidden">
     </Card>
     <Card title="Analysis">
 
@@ -54,3 +63,9 @@
 <section>
     <button id="share-button" disabled>Share ↗</button>
 </section>
+
+<style>
+    .hidden {
+        display: none;
+    }
+</style>
