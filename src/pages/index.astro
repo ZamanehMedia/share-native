@@ -1,30 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Share from '../components/Share.svelte'
-
-const payload = {
-	title: "Discover Native Share",
-	text: "The share() method of the Navigator interface invokes the native sharing mechanism of the device to share data such as text, URLs, or files. The available share targets depend on the device, but might include the clipboard, contacts and email applications, websites, Bluetooth, etc.",
-	url: "https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share",
-	files: []
-} 
 ---
-
-<script>
-	const featureDetection = document.querySelector('#feature-detection')
-	// Move stuff over to Svelte
-	const payloadEditor: (HTMLTextAreaElement | null) = document.querySelector('#payload-editor')
-	const shareButton = document.querySelector('#share-button')
-
-	if ('share' in navigator) {
-		shareButton?.removeAttribute('disabled')
-		shareButton?.addEventListener('click', () => {
-			navigator.share(payload)
-		})
-	} else {
-		featureDetection?.classList.remove('hidden')
-	}
-</script>
 
 <Layout title="Discover Share Native">
 	<main>
