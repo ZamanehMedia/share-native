@@ -17,7 +17,12 @@
         files: []
     };
     
-    $: canShare = () => navigator.canShare(payload);
+    $: canShare = () => false;
+    
+    onMount(() => {
+        canShare = () => navigator.canShare(payload);
+    });
+    
 </script>
 
 <article>
