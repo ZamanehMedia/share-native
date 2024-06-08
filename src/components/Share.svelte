@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
+    
     import Card from './Card.svelte';
 
     const placeholders = {
@@ -6,14 +8,16 @@
         text: 'The share() method of the Navigator interface invokes the native sharing mechanism of the device to share data such as text, URLs, or files. The available share targets depend on the device, but might include the clipboard, contacts and email applications, websites, Bluetooth, etc.',
         url: 'https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share',
         files: []
-    }
+    };
 
     let payload = {
         title: '',
         text: '',
         url: '',
         files: []
-    }
+    };
+    
+    $: canShare = () => navigator.canShare(payload);
 </script>
 
 <article>
@@ -40,7 +44,7 @@
         <input name="file-selector" id="file-selector" bind:files={payload.files} multiple type="file" class="hidden">
     </Card>
     <Card title="Analysis">
-
+        <p>Can share? {canShare()}</p>
     </Card>
     <Card title="Instructions">
 
